@@ -34,11 +34,11 @@ function App() {
         `${import.meta.env.VITE_BACKSERVER}/subjects?category=${category}&level=${level}&order=${order}&searchKeyword=${searchKeyword}`,
       )
       .then((res) => {
-        console.log(res);
         setList(res.data);
       })
       .catch((err) => {
         console.log(err);
+        console.log("서버에 연결할수 없습니다");
       });
   }, [category, level, order, searchKeyword]);
   return (
@@ -64,7 +64,7 @@ function App() {
           );
         })}
       </header>
-      <div>
+      <div className={styles.input_wrap}>
         <form
           onSubmit={(e) => {
             e.preventDefault(); //기본이벤트 방지
@@ -72,8 +72,10 @@ function App() {
           }}
         >
           <input
+            className={styles.input_input}
             type="text"
             value={keyword}
+            placeholder="대소문자 구별"
             onChange={(e) => {
               setKeyword(e.target.value);
             }}
@@ -114,6 +116,18 @@ function App() {
           <option value={3}>수강인원(오름차순)</option>
           <option value={4}>수강인원(내림차순)</option>
         </select>
+        <button
+          type="button"
+          onClick={() => {
+            setCategory(0);
+            setLevel(0);
+            setOrder(0);
+            setKeyword("");
+            setSearchKeyword("");
+          }}
+        >
+          초기화
+        </button>
       </div>
     </>
   );
